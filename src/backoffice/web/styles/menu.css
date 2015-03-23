@@ -1,0 +1,69 @@
+.haut {
+	background-color:#D0DAEC;
+}
+.logo {
+	font-family : "Arial Black";
+	font-size : 26px;
+	font-weight : bold;
+	color : #181818;
+}
+.tab-link {
+	font-family : verdana;
+	font-size : 9px;
+	font-weight : bold;
+	color : white;
+	cursor : hand;
+	text-decoration : none;
+}
+.tab-link:hover {
+	font-family : verdana;
+	font-size : 9px;
+	font-weight : bold;
+	color : white;
+	cursor : hand;
+	text-decoration : none;
+}
+.tab-opened {
+	background-color:#3E6AAB;
+	border-left-color :#B8C8E0;
+	border-left-style : solid;
+	border-left-width : 1;
+	border-top-color : #B8C8E0;
+	border-top-style : solid;
+	border-top-width : 1;
+	border-right-color : #0A2A5A;
+	border-right-style : solid;
+	border-right-width : 1;
+	font-family : verdana;
+	font-size : 10px;
+	font-weight : bold;
+	color : white;
+	cursor : hand;
+}
+.tab-closed {
+	background-color:#002864;
+	font-family : verdana;
+	font-size : 10px;
+	font-weight : bold;
+	color : silver;
+	cursor : hand;
+	border-bottom-color : #B8C8E0;
+	border-bottom-style : solid;
+	border-bottom-width : 1;
+}
+.no-tab {
+	border-bottom-color : #B8C8E0;
+	border-bottom-style : solid;
+	border-bottom-width : 1;
+	font-family : verdana;
+	font-size : 10px;
+	font-weight : bold;
+	cursor : default;
+}
+.long-tab {
+	font-family : verdana;
+	font-size : 10px;
+	font-weight : bold;
+	background-color:#3E6AAB;
+	cursor : default;
+}

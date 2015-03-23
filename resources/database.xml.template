@@ -1,0 +1,8 @@
+<database name="ion" engine="@ENGINE@">
+	<driver url="@URL@" class-name="@DRIVER@">
+		<param name="user" value="@USER@"/>
+		<param name="password" value="@PASSWORD@"/>
+	</driver>
+	<mapping href="%conf%/mapping.xml"/>
+</database>
+

@@ -1,0 +1,101 @@
+.searchBox {
+			font-family : verdana;
+			font-size : 9px;
+			color : black;
+			border : 1px solid #aaaaaa;			
+		}
+		.mainMenu {
+			font-family : arial;
+			font-size : 14px;
+			font-weight : bold;
+			font-style : italic;
+			color : black;
+			text-decoration : none;
+		}
+		.mainMenu:hover {			
+			color : white;			
+		}
+		.mainMenuSelected {
+			font-family : arial;
+			font-size : 14px;
+			font-weight : bold;
+			font-style : italic;
+			color : white;
+			text-decoration : none;
+		}
+		.mainMenuSelected:hover {			
+			color : white;			
+		}
+		.subMenu {
+			font-family : verdana;
+			font-size : 9px;
+			color : black;
+			text-decoration : none;
+		}
+		.subMenu:hover {			
+			text-decoration : underline;
+			color : black;
+		}
+		.bottomMenu {
+			font-family : verdana;
+			font-size : 9px;
+			color : white;
+			text-decoration : none;
+		}
+		.bottomMenu:hover {			
+			text-decoration : underline;
+			color : white;
+		}
+		.defaultCursor {
+			cursor : default;
+		}
+		.colorDarkFill {
+			background-color : #669966;
+			cursor : default;
+		}
+		.colorLightFill {
+			background-color : #669966;
+			cursor : default;
+		}
+		.coloredText {
+			font-family : verdana;
+			font-size : 9px;
+			color : #669966;
+		}
+		.text {
+			font-family : verdana;
+			font-size : 9px;
+			color : black;
+		}
+		.blueText {
+			font-family : verdana;
+			font-size : 9px;
+			color : #3366CC;
+		}
+		.article-title { 
+			font-family : verdana;
+			font-size : 14px;
+			font-weight : bold;
+			color : #669966;
+		}
+		h5 { 
+			font-family : verdana;
+			font-size : 12px;
+			font-weight : bold;
+			color : #669966;
+		}
+		.title { 
+			font-family : verdana;
+			font-size : 18px;
+			font-weight : bold;
+			color : #9999FF;
+		}		
+		a {
+			font-family : verdana;
+			font-size : 9px;
+			text-decoration : underline;
+			color : black;
+		}
+		a:hover {
+			color : #669966;
+		}

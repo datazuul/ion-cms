@@ -1,0 +1,5 @@
+<!-- ++ liste des workflows disponibles dans le backoffice ++ -->
+<workflows>
+	<workflow name="basic workflow" type="file" location="../workflow/basic.xml"/>
+	<workflow name="no content" type="file" location="../workflow/noContent.xml"/>
+</workflows>

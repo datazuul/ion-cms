@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- gbort@msn.com -->
+<workflow>
+	<initial-actions>
+		<action id="1">
+			<restrict-to>
+				<conditions type="AND">
+					<condition type="class">
+						<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+						<arg name="group">XXXXXXXX</arg>
+					</condition>
+				</conditions>
+			</restrict-to>			
+			<results>
+				<unconditional-result step="1" owner="${caller}"/>
+			</results>
+		</action>
+	</initial-actions>
+	<steps/>
+</workflow>

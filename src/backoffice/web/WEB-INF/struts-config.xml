@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="loginForm" type="org.nextime.ion.backoffice.form.LoginForm"/>
+		<form-bean name="editSectionForm" type="org.nextime.ion.backoffice.form.EditSectionForm"/>
+		<form-bean name="editPublicationForm" type="org.nextime.ion.backoffice.form.EditPublicationForm"/>
+		<form-bean name="createPublicationForm" type="org.nextime.ion.backoffice.form.CreatePublicationForm"/>
+		<form-bean name="publishPublicationForm" type="org.nextime.ion.backoffice.form.PublishPublicationForm"/>
+		<form-bean name="uploadResourceForm" type="org.nextime.ion.backoffice.form.UploadResourceForm"/>
+		<form-bean name="editUserForm" type="org.nextime.ion.backoffice.form.EditUserForm"/>
+		<form-bean name="createUserForm" type="org.nextime.ion.backoffice.form.CreateUserForm"/>
+	</form-beans>
+	<action-mappings>	
+		<!-- mettre en valeur une publication -->
+		<action path="/highlight" type="org.nextime.ion.backoffice.action.content.HighlightAction">
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>
+		<!-- choix du membre de directoire -->
+		<action path="/choixMDD" type="org.nextime.ion.backoffice.action.workflow.ChoixMDDAction">
+			<forward name="view" path="/workflowForms/choixMDD.jsp"/>
+			<forward name="actions" path="/actions.x"/>
+		</action>
+		<!-- ajout de commentaire -->
+		<action path="/commentaire" type="org.nextime.ion.backoffice.action.workflow.CommentaireAction">
+			<forward name="view" path="/workflowForms/commentaire.jsp"/>
+			<forward name="actions" path="/actions.x"/>
+		</action>	
+		<!-- Set up Tree datastructure -->
+		<action path="/setUpTree" type="org.nextime.ion.backoffice.action.content.SetUpTreeAction">
+			<forward name="view" path="/WEB-INF/jsp/content/tree.jsp"/>
+		</action>		
+		<!-- Tree Control -->
+		<action path="/treeControl" type="org.nextime.ion.backoffice.action.content.TreeControlAction">
+			<forward name="view" path="/WEB-INF/jsp/content/tree.jsp"/>
+		</action>		
+		<!-- actions -->
+		<action path="/menu" type="org.nextime.ion.backoffice.action.MenuAction">
+			<forward name="view" path="/WEB-INF/jsp/menu.jsp"/>
+		</action>
+		<action path="/newVersion" type="org.nextime.ion.backoffice.action.content.NewVersionAction">
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>
+		<action path="/login" type="org.nextime.ion.backoffice.action.LoginAction" name="loginForm" input="/WEB-INF/jsp/login.jsp">
+			<forward name="view" path="/WEB-INF/jsp/login.jsp"/>
+			<forward name="ok" path="/indexSub.jsp"/>
+		</action>
+		<action path="/logout" type="org.nextime.ion.backoffice.action.LogoutAction">
+			<forward name="ok" path="/login.x"/>
+		</action>
+		<action path="/reIndex" type="org.nextime.ion.backoffice.action.search.ReIndexAction">
+			<forward name="ok" path="/search.x"/>
+		</action>
+		<action path="/search" type="org.nextime.ion.backoffice.action.search.SearchAction">
+			<forward name="view" path="/WEB-INF/jsp/search/search.jsp"/>
+		</action>
+		<action path="/deleteResource" type="org.nextime.ion.backoffice.action.resource.DeleteResourceAction">
+			<forward name="ok" path="/resourceManagement.x"/>
+		</action>
+		<action path="/deleteUser" type="org.nextime.ion.backoffice.action.security.DeleteUserAction">
+			<forward name="view" path="/WEB-INF/jsp/security/deleteUser.jsp"/>
+			<forward name="cancel" path="/listUsers.x"/>
+			<forward name="ok" path="/listUsers.x"/>
+		</action>		
+		<action path="/previewResource" type="org.nextime.ion.backoffice.action.resource.PreviewResourceAction"/>
+		<action path="/contentManagement" type="org.nextime.ion.backoffice.action.content.ContentManagementAction">
+			<forward name="view" path="/WEB-INF/jsp/content/contentManagement.jsp"/>
+		</action>
+		<action path="/resourceManagement" type="org.nextime.ion.backoffice.action.resource.ResourceManagementAction">
+			<forward name="view" path="/WEB-INF/jsp/resource/resourceManagement.jsp"/>
+		</action>
+		<action path="/resourceMenu" type="org.nextime.ion.backoffice.action.resource.ResourceMenuAction">
+			<forward name="view" path="/WEB-INF/jsp/resource/resourceMenu.jsp"/>
+		</action>
+		<action path="/home" type="org.nextime.ion.backoffice.action.HomeAction">
+			<forward name="view" path="/WEB-INF/jsp/home.jsp"/>
+		</action>
+		<action path="/viewSection" type="org.nextime.ion.backoffice.action.content.ViewSectionAction">
+			<forward name="view" path="/WEB-INF/jsp/content/viewSection.jsp"/>
+		</action>
+		<action path="/myWork" type="org.nextime.ion.backoffice.action.content.MyWorkAction">
+			<forward name="view" path="/WEB-INF/jsp/content/myWork.jsp"/>
+		</action>
+		<action path="/viewResource" type="org.nextime.ion.backoffice.action.resource.ViewResourceAction">
+			<forward name="view" path="/WEB-INF/jsp/resource/viewResource.jsp"/>
+		</action>
+		<action path="/listResource" type="org.nextime.ion.backoffice.action.resource.ListResourceAction">
+			<forward name="view" path="/WEB-INF/jsp/resource/listResource.jsp"/>
+		</action>
+		<action path="/moveSection" type="org.nextime.ion.backoffice.action.content.MoveSectionAction">
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>
+		<action path="/movePublication" type="org.nextime.ion.backoffice.action.content.MovePublicationAction">
+			<forward name="ok" path="/viewSection.x"/>
+		</action>
+		<action path="/createSection" type="org.nextime.ion.backoffice.action.content.CreateSectionAction">
+			<forward name="ok" path="/editSection.x"/>
+		</action>
+		<action path="/createPublication" type="org.nextime.ion.backoffice.action.content.CreatePublicationAction" name="createPublicationForm">
+			<forward name="view" path="/WEB-INF/jsp/content/createPublication.jsp"/>
+			<forward name="ok" path="/contentManagement.x"/>
+			<forward name="cancel" path="/contentManagement.x"/>
+		</action>
+		<action path="/editUser" type="org.nextime.ion.backoffice.action.security.EditUserAction" name="editUserForm">
+			<forward name="view" path="/WEB-INF/jsp/security/editUser.jsp"/>
+			<forward name="ok" path="/listUsers.x"/>
+			<forward name="cancel" path="/listUsers.x"/>
+		</action>
+		<action path="/myProfile" type="org.nextime.ion.backoffice.action.security.EditMyProfileAction" name="editUserForm">
+			<forward name="view" path="/WEB-INF/jsp/security/editMyProfile.jsp"/>
+			<forward name="ok" path="/home.x"/>
+			<forward name="cancel" path="/home.x"/>
+		</action>
+		<action path="/createUser" type="org.nextime.ion.backoffice.action.security.CreateUserAction" name="createUserForm">
+			<forward name="view" path="/WEB-INF/jsp/security/createUser.jsp"/>
+			<forward name="ok" path="/listUsers.x"/>
+			<forward name="cancel" path="/listUsers.x"/>
+		</action>		
+		<action path="/uploadResource" type="org.nextime.ion.backoffice.action.resource.UploadResourceAction" name="uploadResourceForm" input="/WEB-INF/jsp/resource/uploadResource.jsp">
+			<forward name="view" path="/WEB-INF/jsp/resource/uploadResource.jsp"/>
+		</action>
+		<action path="/listUsers" type="org.nextime.ion.backoffice.action.security.ListUsersAction">
+			<forward name="view" path="/WEB-INF/jsp/security/listUsers.jsp"/>
+		</action>
+		<action path="/deleteSection" type="org.nextime.ion.backoffice.action.content.DeleteSectionAction">
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>
+		<action path="/deletePublication" type="org.nextime.ion.backoffice.action.content.DeletePublicationAction">
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>
+		<action path="/deletePublicationMyWork" type="org.nextime.ion.backoffice.action.content.DeletePublicationAction">
+			<forward name="ok" path="/myWork.x"/>
+		</action>		
+		<action path="/previewPublication" type="org.nextime.ion.backoffice.action.content.PreviewPublicationAction">
+			<forward name="view" path="/WEB-INF/jsp/content/previewPublication.jsp"/>
+		</action>
+		<action path="/historyPublication" type="org.nextime.ion.backoffice.action.content.HistoryPublicationAction">
+			<forward name="view" path="/WEB-INF/jsp/content/historyPublication.jsp"/>
+		</action>
+		<action path="/actions" type="org.nextime.ion.backoffice.action.content.ActionsAction">
+			<forward name="nothing" path="/contentManagement.x"/>
+			<forward name="ok" path="/contentManagement.x"/>
+		</action>		
+		<action path="/editSection" type="org.nextime.ion.backoffice.action.content.EditSectionAction" name="editSectionForm" input="/WEB-INF/jsp/editSection.jsp">
+			<forward name="view" path="/WEB-INF/jsp/content/editSection.jsp"/>
+			<forward name="ok" path="/contentManagement.x"/>
+			<forward name="cancel" path="/contentManagement.x"/>
+		</action>
+		<action path="/editPublication" type="org.nextime.ion.backoffice.action.content.EditPublicationAction" name="editPublicationForm" input="/WEB-INF/jsp/editPublication.jsp">
+			<forward name="view" path="/WEB-INF/jsp/content/editPublication.jsp"/>
+			<forward name="ok" path="/contentManagement.x"/>
+			<forward name="cancel" path="/contentManagement.x"/>
+		</action>		
+		<!-- The standard administrative actions available with Struts -->
+		<!-- These would be either omitted or protected by security -->
+		<!-- in a real application deployment -->
+		<action path="/admin/addFormBean" type="org.apache.struts.actions.AddFormBeanAction"/>
+		<action path="/admin/addForward" type="org.apache.struts.actions.AddForwardAction"/>
+		<action path="/admin/addMapping" type="org.apache.struts.actions.AddMappingAction"/>
+		<action path="/admin/reload" type="org.apache.struts.actions.ReloadAction"/>
+		<action path="/admin/removeFormBean" type="org.apache.struts.actions.RemoveFormBeanAction"/>
+		<action path="/admin/removeForward" type="org.apache.struts.actions.RemoveForwardAction"/>
+		<action path="/admin/removeMapping" type="org.apache.struts.actions.RemoveMappingAction"/>
+	</action-mappings>
+</struts-config>

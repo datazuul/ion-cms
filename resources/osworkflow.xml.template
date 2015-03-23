@@ -1,0 +1,6 @@
+<osworkflow>	
+	<persistence class="org.nextime.ion.osworkflow.spi.file.FileWorkflowStore">
+		<property key="storeRelativePath" value="../workflow/spi/workflow.store"/>
+	</persistence>
+	<factory class="org.nextime.ion.osworkflow.loader.WorkflowFactory"/>	
+</osworkflow>

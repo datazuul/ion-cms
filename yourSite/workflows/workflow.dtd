@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+The main element.
+-->
+<!ELEMENT workflow (registers?, trigger-functions?, initial-steps, steps, splits?, joins?)>
+<!--
+An action that can be executed (id must be unique among actions for
+the enclosing step).
+
+Used in: actions
+-->
+<!ELEMENT action (restrict-to, validators?, pre-functions?, results, post-functions?)>
+<!ATTLIST action
+	id CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!--
+A list of one or more actions for the enclosing step.
+
+Used in: step
+-->
+<!ELEMENT actions (action+)>
+<!--
+The groups that are allowed to initialize a new workflow.
+
+Used in: initial-step
+-->
+<!ELEMENT allowable-groups (group+)>
+<!--
+An argument to a function. The value of the argument is interpolated, 
+so if the variable foo equals "bar", then the value "test ${foo}" will be
+read as "test bar".
+
+Used in: function
+-->
+<!ELEMENT arg (#PCDATA)>
+<!ATTLIST arg
+	name CDATA #REQUIRED
+>
+<!--
+A group of permissions that are outside the scope of workflow but
+are related to the entity attached to the workflow.
+
+Used in: step
+-->
+<!ELEMENT external-permissions (permission+)>
+<!--
+A function that is executed automatically by OSWorkflow.
+See documentation for what arguments (if any) are required
+for the function type you choose.
+
+Used in: pre-functions, post-functions
+-->
+<!ELEMENT function (arg*)>
+<!ATTLIST function
+	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+>
+<!--
+A group
+
+Used in: allowable-groups, restrict-to
+-->
+<!ELEMENT group (#PCDATA)>
+<!--
+The initialization step that is run when a workflow instance is created.
+
+Used in: initial-steps
+-->
+<!ELEMENT initial-step (allowable-groups, validators?, pre-functions?, results, post-functions?)>
+<!ATTLIST initial-step
+	id CDATA #REQUIRED
+>
+<!--
+A list of initialization steps.
+
+Used in: workflow
+-->
+<!ELEMENT initial-steps (initial-step+)>
+<!ELEMENT join (unconditional-result+)>
+<!ATTLIST join
+	id CDATA #REQUIRED
+	expr CDATA #REQUIRED
+>
+<!ELEMENT joins (join*)>
+<!--
+An external permission.
+
+Used in: external-permissions
+-->
+<!ELEMENT permission (restrict-to)>
+<!ATTLIST permission
+	name CDATA #REQUIRED
+>
+<!--
+A list of functions that are called after the transition has been made
+from one state in the workflow to a new state.
+
+Used in: action, initial-step, result, unconditional-result
+-->
+<!ELEMENT post-functions (function+)>
+<!--
+A list of functions that are called before the transition has been made
+from one state in the workflow to a new state.
+
+Used in: action, initial-step, result, unconditional-result
+-->
+<!ELEMENT pre-functions (function+)>
+<!--
+A class that puts a variable in the scope of all functions and validators.
+
+Used in: registers
+-->
+<!ELEMENT register (arg*)>
+<!ATTLIST register
+	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+	variable-name CDATA #REQUIRED
+>
+<!--
+A list of registers.
+
+Used in: workflow
+-->
+<!ELEMENT registers (register+)>
+<!--
+A restriction for actions and permissions. It can be based on group
+membership, as well as the current workflow status. Also, it can 
+restrict based on if the caller is the owner or not.
+
+Used in: action, permission
+-->
+<!ELEMENT restrict-to (group*)>
+<!ATTLIST restrict-to
+	condition CDATA #IMPLIED
+	status (Queued | Underway | Finished) #REQUIRED
+	owner (allow | deny | use_groups) #REQUIRED
+>
+<!--
+A conditional result of an action. The result only happens if the
+beanshell evaluation of "condition" is true. The attribute "owner"
+is ignored if the resulting status is Queued.
+
+Used in: results
+-->
+<!ELEMENT result (validators?, pre-functions?, post-functions?)>
+<!ATTLIST result
+	condition CDATA #REQUIRED
+	status (Queued | Underway | Finished) #IMPLIED
+	step CDATA #IMPLIED
+	owner CDATA #IMPLIED
+	split CDATA #IMPLIED
+>
+<!--
+A list of optional conditional results and a single uncondition result.
+
+Used in: action, initial-step
+-->
+<!ELEMENT results (result*, unconditional-result)>
+<!-- split -->
+<!ELEMENT split (unconditional-result+)>
+<!ATTLIST split
+	id CDATA #REQUIRED
+>
+<!-- splits -->
+<!ELEMENT splits (split+)>
+<!--
+A unique step in the workflow (id must be unique among steps).
+
+Used in: steps
+-->
+<!ELEMENT step (external-permissions?, actions?)>
+<!ATTLIST step
+	id CDATA #REQUIRED
+	name CDATA #REQUIRED
+>
+<!--
+A list of steps contained in this workflow definition.
+
+Used in: workflow
+-->
+<!ELEMENT steps (step+)>
+<!--
+A result that has no conditions. If all conditional results fail, this is the
+default result.
+-->
+<!ELEMENT unconditional-result (validators?, pre-functions?, post-functions?)>
+<!ATTLIST unconditional-result
+	status (Queued | Underway | Finished) #IMPLIED
+	step CDATA #IMPLIED
+	owner CDATA #IMPLIED
+	split CDATA #IMPLIED
+	join CDATA #IMPLIED
+>
+<!--
+A function that has a unique ID and is called by an external job scheduler.
+
+Used in: trigger-functions
+-->
+<!ELEMENT trigger-function (function)>
+<!ATTLIST trigger-function
+	id CDATA #REQUIRED
+>
+<!--
+A list of trigger functions.
+
+Used in: workflow
+-->
+<!ELEMENT trigger-functions (trigger-function+)>
+<!--
+A class or script that validates user input.
+See documentation for what arguments (if any) are required
+for the function type you choose.
+
+Used in: validators
+-->
+<!ELEMENT validator (arg*)>
+<!ATTLIST validator
+	type (class | jndi | local-ejb | remote-ejb | bsf | beanshell) #REQUIRED
+>
+<!--
+A list of validators.
+
+Used in: action, intial-step, result, unconditional-result
+-->
+<!ELEMENT validators (validator+)>

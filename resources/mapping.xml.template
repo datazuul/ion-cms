@@ -1,0 +1,139 @@
+<mapping>
+	<!-- ############ USER ############ -->
+	<class name="org.nextime.ion.framework.business.impl.UserImpl" identity="login">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="users"/>
+		<field name="login" type="string">
+			<sql name="login" type="char"/>
+		</field>
+		<field name="password" type="string">
+			<sql name="password" type="char"/>
+		</field>
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+		<field name="groups" type="org.nextime.ion.framework.business.impl.GroupImpl" collection="vector">
+			<sql many-key="login" many-table="users_groups" name="group_id"/>
+		</field>
+	</class>
+	<!-- ############ GROUP ############ -->
+	<class name="org.nextime.ion.framework.business.impl.GroupImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="groups"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+		<field name="users" type="org.nextime.ion.framework.business.impl.UserImpl" collection="vector">
+			<sql many-key="group_id" many-table="users_groups" name="login"/>
+		</field>
+	</class>
+	<!-- ############ CATEGORY ############ -->
+	<class name="org.nextime.ion.framework.business.impl.CategoryImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="categories"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+		<field name="publications" type="org.nextime.ion.framework.business.impl.PublicationImpl" collection="vector">
+			<sql many-key="category_id" many-table="categories_publications" name="publication_id"/>
+		</field>
+	</class>
+	<!-- ############ SECTION ############ -->
+	<class name="org.nextime.ion.framework.business.impl.SectionImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="sections"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="index" type="integer">
+			<sql name="numIndex" type="integer"/>
+		</field>
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+		<field name="parent" type="org.nextime.ion.framework.business.impl.SectionImpl">
+			<sql name="parent_id"/>
+		</field>
+		<field name="publications" type="org.nextime.ion.framework.business.impl.PublicationImpl" collection="vector">
+			<sql many-key="section_id" many-table="sections_publications" name="publication_id"/>
+		</field>
+	</class>
+	<!-- ############ TYPE DE PUBLICATION ############ -->
+	<class name="org.nextime.ion.framework.business.impl.TypePublicationImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="type_publications"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+	</class>
+	<!-- ############  PUBLICATION ############ -->
+	<class name="org.nextime.ion.framework.business.impl.PublicationImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="publications"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="workflowType" type="string">
+			<sql name="workflow_type" type="char"/>
+		</field>
+		<!--<field name="workflowId" type="long">
+			<sql name="workflowId" type="bigint"/>
+		</field>-->
+		<field name="metaDataBytes" type="bytes">
+			<sql name="metaData" type="varbinary" dirty="ignore"/>
+		</field>
+		<!--<field name="dataBytes" type="bytes">
+			<sql name="data" type="varbinary" dirty="ignore"/>
+		</field>-->
+		<field name="type" type="org.nextime.ion.framework.business.impl.TypePublicationImpl">
+			<sql name="type_id"/>
+		</field>
+		<field name="datePubli" type="string">
+			<sql name="datepubli" type="char"/>
+		</field>
+		<!--<field name="author" type="org.nextime.ion.framework.business.impl.UserImpl">
+			<sql name="author_id"/>
+		</field>-->
+		<field name="versions" type="org.nextime.ion.framework.business.impl.PublicationVersionImpl" collection="vector">
+			<sql many-key="publication_id" many-table="versions_publications"/>
+		</field>
+		<field name="sections" type="org.nextime.ion.framework.business.impl.SectionImpl" collection="vector">
+			<sql many-key="publication_id" many-table="sections_publications" name="section_id"/>
+		</field>
+		<field name="categories" type="org.nextime.ion.framework.business.impl.CategoryImpl" collection="vector">
+			<sql many-key="publication_id" many-table="categories_publications" name="category_id"/>
+		</field>
+	</class>
+	<!-- ############ VERSION DE PUBLICATION ############ -->
+	<class name="org.nextime.ion.framework.business.impl.PublicationVersionImpl" identity="id">
+		<cache-type type="time-limited" capacity="30"/>
+		<map-to table="versions_publications"/>
+		<field name="id" type="string">
+			<sql name="id" type="char"/>
+		</field>
+		<field name="version" type="integer">
+			<sql name="version" type="integer"/>
+		</field>
+		<field name="publication" type="org.nextime.ion.framework.business.impl.PublicationImpl">
+			<sql name="publication_id"/>
+		</field>
+		<field name="workflowId" type="long">
+			<sql name="workflow_id" type="bigint"/>
+		</field>
+		<field name="dataAsString" type="string">
+			<sql name="data" type="varchar"/>
+		</field>
+		<field name="author" type="org.nextime.ion.framework.business.impl.UserImpl">
+			<sql name="author_id"/>
+		</field>
+	</class>
+</mapping>

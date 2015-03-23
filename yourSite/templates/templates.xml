@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<templates-description>
+	<template name="Page" template="page" jsp="page.jsp">
+		<description>
+			Page d'exemple
+		</description>		
+	</template>
+</templates-description>

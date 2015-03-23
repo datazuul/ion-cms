@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
+<struts-config>
+
+	<form-beans>
+		<form-bean name="UserForm" type="org.nextime.ion.admin.form.UserForm"/>
+		<form-bean name="GroupForm" type="org.nextime.ion.admin.form.GroupForm"/>
+		<form-bean name="PubliForm" type="org.nextime.ion.admin.form.PubliForm"/>
+		<form-bean name="SectionForm" type="org.nextime.ion.admin.form.SectionForm"/>
+		<form-bean name="CategoryForm" type="org.nextime.ion.admin.form.CategoryForm"/>
+		<form-bean name="TypeForm" type="org.nextime.ion.admin.form.TypeForm"/>
+	</form-beans>
+		
+	<action-mappings>
+	
+		<!-- actions for users -->
+	
+		<action path="/addUser" type="org.nextime.ion.admin.action.user.AddUserAction" name="UserForm" scope="request" input="/WEB-INF/jsp/user/addUser.jsp">
+			<forward name="success" path="/editUser.x"/>
+		</action>		
+		<action path="/editUser" type="org.nextime.ion.admin.action.user.EditUserAction" name="UserForm" scope="request" input="/WEB-INF/jsp/user/editUser.jsp">
+			<forward name="success" path="/listUser.x"/>
+		</action>		
+		<action path="/listUser" type="org.nextime.ion.admin.action.user.ListUserAction">
+			<forward name="view" path="/WEB-INF/jsp/user/listUser.jsp"/>
+		</action>		
+		<action path="/delUser" type="org.nextime.ion.admin.action.user.DelUserAction">
+			<forward name="success" path="/listUser.x"/>
+		</action>	
+		
+		<!-- actions for categories -->	
+		
+		<action path="/addCategory" type="org.nextime.ion.admin.action.category.AddCategoryAction" name="CategoryForm" scope="request" input="/WEB-INF/jsp/category/addCategory.jsp">
+			<forward name="success" path="/editCategory.x"/>
+		</action>		
+		<action path="/editCategory" type="org.nextime.ion.admin.action.category.EditCategoryAction" name="CategoryForm" scope="request" input="/WEB-INF/jsp/category/editCategory.jsp">
+			<forward name="success" path="/listCategory.x"/>
+		</action>
+		<action path="/listCategory" type="org.nextime.ion.admin.action.category.ListCategoryAction">
+			<forward name="view" path="/WEB-INF/jsp/category/listCategory.jsp"/>
+		</action>
+		<action path="/delCategory" type="org.nextime.ion.admin.action.category.DelCategoryAction">
+			<forward name="success" path="/listCategory.x"/>
+		</action>
+		
+		<!-- actions for groups -->
+		
+		<action path="/addGroup" type="org.nextime.ion.admin.action.group.AddGroupAction" name="GroupForm" scope="request" input="/WEB-INF/jsp/group/addGroup.jsp">
+			<forward name="success" path="/editGroup.x"/>
+		</action>		
+		<action path="/editGroup" type="org.nextime.ion.admin.action.group.EditGroupAction" name="GroupForm" scope="request" input="/WEB-INF/jsp/group/editGroup.jsp">
+			<forward name="success" path="/listGroup.x"/>
+		</action>
+		<action path="/listGroup" type="org.nextime.ion.admin.action.group.ListGroupAction">
+			<forward name="view" path="/WEB-INF/jsp/group/listGroup.jsp"/>
+		</action>
+		<action path="/delGroup" type="org.nextime.ion.admin.action.group.DelGroupAction">
+			<forward name="success" path="/listGroup.x"/>
+		</action>
+		
+		<!-- actions for publications -->
+		
+		<action path="/addPubli" type="org.nextime.ion.admin.action.publi.AddPubliAction" name="PubliForm" scope="request" input="/WEB-INF/jsp/publi/addPubli.jsp">
+			<forward name="success" path="/editPubli.x"/>
+		</action>		
+		<action path="/editPubli" type="org.nextime.ion.admin.action.publi.EditPubliAction" name="PubliForm" scope="request" input="/WEB-INF/jsp/publi/editPubli.jsp">
+			<forward name="success" path="/listPubli.x"/>
+		</action>
+		<action path="/listPubli" type="org.nextime.ion.admin.action.publi.ListPubliAction">
+			<forward name="view" path="/WEB-INF/jsp/publi/listPubli.jsp"/>
+		</action>
+		<action path="/delPubli" type="org.nextime.ion.admin.action.publi.DelPubliAction">
+			<forward name="success" path="/listPubli.x"/>
+		</action>
+		<action path="/xmlPubli" type="org.nextime.ion.admin.action.publi.XmlPubliAction">
+			<forward name="view" path="/WEB-INF/jsp/publi/xmlPubli.jsp"/>
+		</action>
+		<action path="/newVersion" type="org.nextime.ion.admin.action.publi.NewVersionAction">
+			<forward name="success" path="/editPubli.x"/>
+		</action>
+		
+		<!-- actions for sections -->
+		
+		<action path="/addSection" type="org.nextime.ion.admin.action.section.AddSectionAction" name="SectionForm" scope="request" input="/WEB-INF/jsp/section/addSection.jsp">
+			<forward name="success" path="/editSection.x"/>
+		</action>		
+		<action path="/editSection" type="org.nextime.ion.admin.action.section.EditSectionAction" name="SectionForm" scope="request" input="/WEB-INF/jsp/section/editSection.jsp">
+			<forward name="success" path="/listSection.x"/>
+		</action>
+		<action path="/listSection" type="org.nextime.ion.admin.action.section.ListSectionAction">
+			<forward name="view" path="/WEB-INF/jsp/section/listSection.jsp"/>
+		</action>
+		<action path="/delSection" type="org.nextime.ion.admin.action.section.DelSectionAction">
+			<forward name="success" path="/listSection.x"/>
+		</action>
+		<action path="/siteMap" type="org.nextime.ion.admin.action.section.SiteMapAction">
+			<forward name="view" path="/WEB-INF/jsp/section/siteMap.jsp"/>
+		</action>
+		<action path="/moveSection" type="org.nextime.ion.admin.action.section.MoveSectionAction">
+			<forward name="success" path="/listSection.x"/>
+		</action>
+		
+		<!-- actions for types -->
+		
+		<action path="/addType" type="org.nextime.ion.admin.action.type.AddTypeAction" name="TypeForm" scope="request" input="/WEB-INF/jsp/type/addType.jsp">
+			<forward name="success" path="/editType.x"/>
+		</action>		
+		<action path="/editType" type="org.nextime.ion.admin.action.type.EditTypeAction" name="TypeForm" scope="request" input="/WEB-INF/jsp/type/editType.jsp">
+			<forward name="success" path="/listType.x"/>
+		</action>
+		<action path="/listType" type="org.nextime.ion.admin.action.type.ListTypeAction">
+			<forward name="view" path="/WEB-INF/jsp/type/listType.jsp"/>
+		</action>
+		<action path="/delType" type="org.nextime.ion.admin.action.type.DelTypeAction">
+			<forward name="success" path="/listType.x"/>
+		</action>
+		<action path="/formType" type="org.nextime.ion.admin.action.type.FormAction">
+			<forward name="view" path="/WEB-INF/jsp/type/formType.jsp"/>
+		</action>		
+		
+		<!-- others actions -->
+		
+		<action path="/home" type="org.nextime.ion.admin.action.HomeAction">
+			<forward name="view" path="/WEB-INF/jsp/home.jsp"/>			
+		</action>
+		<action path="/config" type="org.nextime.ion.admin.action.ConfigAction">
+			<forward name="view" path="/WEB-INF/jsp/config.jsp"/>			
+		</action>
+		<action path="/changeDatabase" type="org.nextime.ion.admin.action.ChangeDatabaseAction">
+			<forward name="success" path="/config.x"/>			
+		</action>
+		
+		
+		<!-- The standard administrative actions available with Struts -->
+		<!-- These would be either omitted or protected by security -->
+		<!-- in a real application deployment -->
+		<action path="/admin/addFormBean" type="org.apache.struts.actions.AddFormBeanAction"/>
+		<action path="/admin/addForward" type="org.apache.struts.actions.AddForwardAction"/>
+		<action path="/admin/addMapping" type="org.apache.struts.actions.AddMappingAction"/>
+		<action path="/admin/reload" type="org.apache.struts.actions.ReloadAction"/>
+		<action path="/admin/removeFormBean" type="org.apache.struts.actions.RemoveFormBeanAction"/>
+		<action path="/admin/removeForward" type="org.apache.struts.actions.RemoveForwardAction"/>
+		<action path="/admin/removeMapping" type="org.apache.struts.actions.RemoveMappingAction"/>
+	
+	</action-mappings>
+	
+</struts-config>

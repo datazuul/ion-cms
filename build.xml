@@ -1,0 +1,391 @@
+<?xml version="1.0"?>
+<project name="ion-cms" default="all" basedir=".">
+	<!-- ion Content Management System / guillaume.bort@loria.fr -->
+
+	<property file=".ant.properties" />
+	
+	<!-- DIR -->
+	<property name="resources.dir" value="${basedir}/resources"/>	
+	<property name="thirdparty.dir" value="${basedir}/thirdparty"/>
+	<property name="ext.dir" value="${basedir}/thirdparty/ext"/>
+	<property name="drivers.dir" value="${basedir}/thirdparty/drivers"/>
+	<!-- SRC -->
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="src.framework.dir" value="${src.dir}/framework"/>
+	<property name="src.commons.dir" value="${src.dir}/commons"/>
+	<property name="src.backoffice.dir" value="${src.dir}/backoffice/src"/>
+	<property name="src.backoffice.web.dir" value="${src.dir}/backoffice/web"/>
+	<property name="src.frontoffice.dir" value="${src.dir}/frontoffice/src"/>
+	<property name="src.frontoffice.web.dir" value="${src.dir}/frontoffice/web"/>
+	<property name="src.admin.dir" value="${src.dir}/admin/src"/>
+	<property name="src.admin.web.dir" value="${src.dir}/admin/web"/>
+	<!-- BUILD -->	
+	<property name="build.dir" value="${basedir}/build"/>
+	<property name="build.resources.dir" value="${basedir}/build"/>
+	<property name="build.framework.dir" value="${build.dir}/framework"/>
+	<property name="build.backoffice.classes.dir" value="${build.dir}/backoffice/classes"/>
+	<property name="build.backoffice.dir" value="${build.dir}/backoffice/web"/>
+	<property name="build.frontoffice.classes.dir" value="${build.dir}/frontoffice/classes"/>
+	<property name="build.frontoffice.dir" value="${build.dir}/frontoffice/web"/>
+	<property name="build.admin.classes.dir" value="${build.dir}/admin/classes"/>
+	<property name="build.admin.dir" value="${build.dir}/admin/web"/>
+	<property name="build.commons.dir" value="${build.dir}/commons"/>
+	<property name="build.deploy.dir" value="${build.dir}/deploy"/>	
+	<!-- TOMCAT -->
+	<property name="tomcat.sharedLib.dir" value="${tomcat.dir}/shared/lib"/>
+	<property name="tomcat.sharedClasses.dir" value="${tomcat.dir}/shared/classes"/>
+	<property name="tomcat.webapps.dir" value="${tomcat.dir}/webapps"/>
+	<!-- YOURSITE -->
+	<property name="yourSite.dir" value="${basedir}/yourSite"/>
+	<property name="yourSite.templates.dir" value="${yourSite.dir}/templates"/>
+	<property name="yourSite.workflows.dir" value="${yourSite.dir}/workflows"/>
+	<property name="yourSite.web.dir" value="${yourSite.dir}/web"/>
+	<property name="yourSite.lib.dir" value="${yourSite.dir}/lib"/>
+	<property name="yourSite.types.dir" value="${yourSite.dir}/types"/>	
+	
+	<!-- CLASSPATH -->   		
+	<path id="compile.class.path">
+      <fileset dir="${thirdparty.dir}">
+         <include name="*.jar"/>
+      </fileset> 
+      <fileset dir="${ext.dir}">
+         <include name="*.jar"/>
+      </fileset>
+      <fileset dir="${build.deploy.dir}">
+         <include name="*.jar"/>
+      </fileset>    
+   	</path>
+   	
+   	<!-- SQLPATH -->   		
+	<path id="sql.class.path">
+      <fileset dir="${drivers.dir}">
+         <include name="*.jar"/>
+      </fileset>          
+   	</path>  
+   	
+   	<!-- INIT -->
+   	<target name="init">
+    	<mkdir dir="${build.dir}"/>
+    	<mkdir dir="${build.deploy.dir}"/>  
+   	</target>
+   	
+   	<!-- CLEAN -->
+   	<target name="clean" description="clean the build directory">
+    	<delete dir="${build.dir}"/>    	
+   	</target>
+   	
+   	<!-- FRAMEWORK -->
+   	<target name="framework" depends="init" description="compile and package the ion framework">
+    	<mkdir dir="${build.framework.dir}"/> 
+    	<javac
+	      	source="1.4"
+	      	debug="true"      	
+         	destdir="${build.framework.dir}"
+         	classpathref="compile.class.path">
+         	<include name="**/*"/>
+         	<src path="${src.framework.dir}"/>
+      	</javac> 
+      	<jar jarfile="${build.deploy.dir}/ion-framework.jar">
+        	<fileset
+            	dir="${build.framework.dir}"
+				includes="**/*"
+			/>
+			<fileset
+            	dir="${src.framework.dir}"
+				includes="**/*.xsl"
+			/>			
+		</jar>
+   	</target>
+   	
+   	<!-- COMMONS -->
+   	<target name="commons" depends="framework,init" description="compile and package ion commons components">
+    	<mkdir dir="${build.commons.dir}"/> 
+    	<javac
+	      	source="1.4"
+	      	debug="true"      	
+         	destdir="${build.commons.dir}"
+         	classpathref="compile.class.path">
+         	<include name="**/*"/>
+         	<src path="${src.commons.dir}"/>
+      	</javac> 
+      	<jar jarfile="${build.deploy.dir}/ion-commons.jar">
+        	<fileset
+            	dir="${build.commons.dir}"
+				includes="**/*"
+			/>				
+		</jar>
+   	</target>
+   	
+   	<!-- COMPILE-BACKOFFICE -->
+   	<target name="compile-backoffice" depends="framework,commons,init">
+    	<mkdir dir="${build.backoffice.classes.dir}"/> 
+    	<javac
+	      	source="1.4"
+	      	debug="true"      	
+         	destdir="${build.backoffice.classes.dir}"         	
+         	classpathref="compile.class.path">
+         	<include name="**/*"/>
+         	<src path="${src.backoffice.dir}"/>
+      	</javac>      	
+   	</target>
+   	
+   	<!-- BACKOFFICE -->
+   	<target name="backoffice" depends="compile-backoffice" description="compile and package the ion backoffice">
+    	<mkdir dir="${build.backoffice.dir}"/>
+    	<mkdir dir="${build.backoffice.dir}/WEB-INF/classes"/>
+    	<copy todir="${build.backoffice.dir}"> 
+    		<fileset dir="${src.backoffice.web.dir}"/>    		
+    	</copy>    	
+    	<copy todir="${build.backoffice.dir}/WEB-INF/classes">
+    		<fileset dir="${build.backoffice.classes.dir}"/>
+    	</copy> 
+    	<copy todir="${build.backoffice.dir}/WEB-INF/classes">
+    		<fileset dir="${src.backoffice.dir}">
+    			<include name="**/*.properties"/>
+    		</fileset>
+    	</copy>
+    	<jar jarfile="${build.deploy.dir}/backoffice.war">
+        	<fileset
+            	dir="${build.backoffice.dir}"
+				includes="**/*"
+			/>				
+		</jar>	
+   	</target>
+   	
+   	<!-- COMPILE-FRONTOFFICE -->
+   	<target name="compile-frontoffice" depends="framework,commons,init">
+    	<mkdir dir="${build.frontoffice.classes.dir}"/> 
+    	<javac
+	      	source="1.4"
+	      	debug="true"      	
+         	destdir="${build.frontoffice.classes.dir}"         	
+         	classpathref="compile.class.path">
+         	<include name="**/*"/>
+         	<src path="${src.frontoffice.dir}"/>
+      	</javac>      	
+   	</target>
+   	
+   	<!-- FRONTOFFICE -->
+   	<target name="frontoffice" depends="compile-frontoffice" description="compile and package the ion frontoffice">
+    	<mkdir dir="${build.frontoffice.dir}"/>
+    	<mkdir dir="${build.frontoffice.dir}/WEB-INF/classes"/>
+    	<copy todir="${build.frontoffice.dir}"> 
+    		<fileset dir="${src.frontoffice.web.dir}"/>    		
+    	</copy>    	
+    	<copy todir="${build.frontoffice.dir}/WEB-INF/classes">
+    		<fileset dir="${build.frontoffice.classes.dir}"/>
+    	</copy> 
+    	<copy todir="${build.frontoffice.dir}/WEB-INF/classes">
+    		<fileset dir="${src.frontoffice.dir}">
+    			<include name="**/*.properties"/>
+    		</fileset>
+    	</copy>
+    	<copy todir="${build.frontoffice.dir}/templates"> 
+    		<fileset dir="${yourSite.templates.dir}">
+    			<include name="*.jsp"/>
+    		</fileset>    		
+    	</copy>
+    	<copy todir="${build.frontoffice.dir}"> 
+    		<fileset dir="${yourSite.web.dir}"/>    		
+    	</copy>
+    	<copy todir="${build.frontoffice.dir}/WEB-INF/lib"> 
+    		<fileset dir="${yourSite.lib.dir}"/>    		
+    	</copy>
+    	<jar jarfile="${build.deploy.dir}/frontoffice.war">
+        	<fileset
+            	dir="${build.frontoffice.dir}"
+				includes="**/*"
+			/>				
+		</jar>	
+   	</target>
+   	
+   	<!-- COMPILE-ADMIN -->
+   	<target name="compile-admin" depends="framework,commons,init">
+    	<mkdir dir="${build.admin.classes.dir}"/> 
+    	<javac
+	      	source="1.4"
+	      	debug="true"      	
+         	destdir="${build.admin.classes.dir}"         	
+         	classpathref="compile.class.path">
+         	<include name="**/*"/>
+         	<src path="${src.admin.dir}"/>
+      	</javac>      	
+   	</target>
+   	
+   	<!-- ADMIN -->
+   	<target name="admin" depends="compile-admin" description="compile and package the ion admin application">
+    	<mkdir dir="${build.admin.dir}"/>
+    	<mkdir dir="${build.admin.dir}/WEB-INF/classes"/>
+    	<copy todir="${build.admin.dir}"> 
+    		<fileset dir="${src.admin.web.dir}"/>    		
+    	</copy>    	
+    	<copy todir="${build.admin.dir}/WEB-INF/classes">
+    		<fileset dir="${build.admin.classes.dir}"/>
+    	</copy> 
+    	<copy todir="${build.admin.dir}/WEB-INF/classes">
+    		<fileset dir="${src.admin.dir}">
+    			<include name="**/*.properties"/>
+    		</fileset>
+    	</copy>    	
+    	<jar jarfile="${build.deploy.dir}/admin.war">
+        	<fileset
+            	dir="${build.admin.dir}"
+				includes="**/*"
+			/>				
+		</jar>	
+   	</target>
+   	
+   	<!-- INSTALL -->
+   	<target name="install" depends="all" description="install ion-cms on tomcat">
+    	<mkdir dir="${install.dir}/webapps"/>
+    	<mkdir dir="${install.dir}/conf"/>
+    	<mkdir dir="${install.dir}/cache"/>
+    	<mkdir dir="${install.dir}/index"/>
+    	<mkdir dir="${install.dir}/types"/>
+    	<mkdir dir="${install.dir}/workflow"/>
+    	<mkdir dir="${install.dir}/workflow/spi"/>
+    	<mkdir dir="${install.dir}/resources"/>
+    	<mkdir dir="${install.dir}/resources/images"/>
+    	<mkdir dir="${install.dir}/resources/cache"/>
+    	<mkdir dir="${install.dir}/resources/videos"/>
+    	<mkdir dir="${install.dir}/resources/audios"/>
+    	<mkdir dir="${install.dir}/resources/documents"/>
+    	<copy todir="${tomcat.sharedLib.dir}"> 
+    		<fileset dir="${thirdparty.dir}">
+    			<exclude name="ext"/>
+    		</fileset>    		
+    	</copy>
+    	<copy todir="${tomcat.sharedLib.dir}"> 
+    		<fileset dir="${drivers.dir}"/>
+    	</copy>
+    	<copy todir="${tomcat.sharedLib.dir}"> 
+    		<fileset dir="${build.deploy.dir}">
+    			<include name="*.jar"/>
+    		</fileset>    		
+    	</copy>
+    	<filter token="CONF_DIRECTORY" value="${install.dir}/conf"/>    	
+    	<copy 
+    		file="${resources.dir}/ion-locate.properties.template" 
+    		tofile="${tomcat.sharedClasses.dir}/ion-locate.properties"   
+    		filtering="true" 		
+    	/> 
+    	<copy 
+    		file="${resources.dir}/osworkflow.xml.template" 
+    		tofile="${tomcat.sharedClasses.dir}/osworkflow.xml"    				
+    	/>
+    	<copy 
+    		file="${yourSite.dir}/locales.xml" 
+    		tofile="${install.dir}/conf/locales.xml"    				
+    	/>
+    	<copy 
+    		file="${yourSite.templates.dir}/templates.xml" 
+    		tofile="${install.dir}/conf/templates.xml"			
+    	/>
+    	<copy 
+    		file="${yourSite.workflows.dir}/workflows-list.xml" 
+    		tofile="${install.dir}/conf/workflows.xml"    				
+    	/>
+    	<filter token="INDEX_NAMES" value="${index.names}"/>
+    	<copy 
+    		file="${resources.dir}/config.properties.template" 
+    		tofile="${install.dir}/conf/config.properties"  
+    		filtering="true"  				
+    	/> 
+    	<copy 
+    		file="${resources.dir}/mapping.xml.template" 
+    		tofile="${install.dir}/conf/mapping.xml"     		 				
+    	/>
+    	<copy 
+    		file="${resources.dir}/resources.xml.template" 
+    		tofile="${install.dir}/conf/resources.xml"     		 				
+    	/> 
+    	<filter token="ENGINE" value="${database.type}"/>
+    	<filter token="URL" value="${database.url}"/>
+    	<filter token="DRIVER" value="${database.driver}"/>		
+    	<filter token="USER" value="${database.user}"/>
+    	<filter token="PASSWORD" value="${database.password}"/>
+    	<copy 
+    		file="${resources.dir}/database.xml.template" 
+    		tofile="${install.dir}/conf/database.xml"  
+    		filtering="true"  				
+    	/>
+    	<copy todir="${install.dir}/types"> 
+    		<fileset dir="${yourSite.types.dir}"/>    		
+    	</copy>
+    	<copy todir="${install.dir}/workflow"> 
+    		<fileset dir="${yourSite.workflows.dir}">
+    			<exclude name="workflows-list.xml"/>
+    		</fileset>   		
+    	</copy>
+    	<copy todir="${install.dir}/webapps/backoffice">
+    		<fileset dir="${build.backoffice.dir}"/>
+    	</copy>
+    	<copy todir="${install.dir}/webapps/frontoffice">
+    		<fileset dir="${build.frontoffice.dir}"/>
+    	</copy>
+    	<copy todir="${install.dir}/webapps/admin">
+    		<fileset dir="${build.admin.dir}"/>
+    	</copy>
+    	<filter token="FRONT_PATH" value="${install.dir}/webapps/frontoffice"/>
+    	<copy 
+    		file="${resources.dir}/frontoffice.xml.template" 
+    		tofile="${tomcat.webapps.dir}/ion-frontoffice.xml"  
+    		filtering="true"  				
+    	/>
+    	<filter token="BACK_PATH" value="${install.dir}/webapps/backoffice"/>
+    	<copy 
+    		file="${resources.dir}/backoffice.xml.template" 
+    		tofile="${tomcat.webapps.dir}/ion-backoffice.xml"  
+    		filtering="true"  				
+    	/>
+    	<filter token="ADMIN_PATH" value="${install.dir}/webapps/admin"/>
+    	<copy 
+    		file="${resources.dir}/admin.xml.template" 
+    		tofile="${tomcat.webapps.dir}/ion-admin.xml"  
+    		filtering="true"  				
+    	/>
+   	</target>
+   	
+   	<!-- UNINSTALL -->
+   	<target name="uninstall" description="uninstall ion-cms">
+    	<delete dir="${install.dir}/conf"/>
+    	<delete dir="${install.dir}/cache"/>
+    	<delete dir="${install.dir}/index"/>
+    	<delete dir="${install.dir}/types"/>    	
+    	<delete dir="${install.dir}/workflow"/>    	
+    	<delete dir="${install.dir}/resources"/>
+    	<delete dir="${install.dir}/webapps"/>
+    	<delete>
+    		<fileset dir="${tomcat.sharedLib.dir}">
+    			<include name="*"/>
+    		</fileset>
+    	</delete>
+    	<delete>
+    		<fileset dir="${tomcat.sharedClasses.dir}">
+    			<include name="*"/>
+    		</fileset>
+    	</delete>
+    	<delete>
+    		<fileset dir="${tomcat.webapps.dir}">
+    			<include name="ion*"/>
+    		</fileset>
+    	</delete>
+   	</target>
+   	
+   	<target name="initdb" description="create table for ion in database">
+   		<sql
+    		driver="${database.driver}"
+    		url="${database.url}"
+    		userid="${database.user}"
+    		password="${database.password}"
+    		src="${resources.dir}/initdb-${database.type}.sql"
+    		classpathref="sql.class.path"
+		/>
+   	</target>
+   	
+   	<!-- ALL -->
+   	<target name="all" depends="framework,commons,backoffice,frontoffice,admin,init" description="compile and packages all ion components">
+    	  <!-- // -->
+   	</target>   	
+
+</project>

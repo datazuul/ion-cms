@@ -1,0 +1,2 @@
+# This file is used to locate ion-cms
+confDirectory=@CONF_DIRECTORY@

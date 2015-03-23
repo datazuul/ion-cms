@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<workflow>
+	<initial-actions>
+		<action id="1">
+			<restrict-to>
+				<conditions type="OR">
+					<condition type="class">
+						<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+						<arg name="group">users</arg>
+					</condition>
+				</conditions>
+			</restrict-to>
+			<pre-functions>
+				<function type="class">
+					<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+				</function>
+				<!-- indispensable -->
+				<function type="class">
+					<arg name="class.name">org.nextime.ion.osworkflow.util.IonInitWorkflow</arg>
+				</function>
+			</pre-functions>
+			<results>
+				<unconditional-result step="1" owner="${caller}"/>
+			</results>
+		</action>
+	</initial-actions>
+	<steps>
+		<!-- brouillon de publication -->
+		<step id="1" name="Brouillon">
+			<external-permissions>
+				<permission name="publicationIcon:images/publication-create.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="11" name="Commencer l'édition">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonOnlyAuthorCondition</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="2" owner="${caller}"/>
+					</results>
+				</action>
+				<action id="12" name="Faire valider par un webmaster">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonOnlyAuthorCondition</arg>
+							</condition>
+							<condition type="beanshell">
+								<arg name="script">
+									 !org.nextime.ion.framework.business.User.getInstance(context.getCaller()).isInGroup(org.nextime.ion.framework.business.Group.getInstance("webmasters"))
+								</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="3" owner="${caller}"/>
+					</results>					
+				</action>
+				<action id="13" name="Publier sur le site">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="5" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+		<!-- vérouillage pour édition -->
+		<step id="2" name="Edition du document">
+			<external-permissions>
+				<permission name="canEdit">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="publicationIcon:images/publication-lock.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="21" name="Finir l'édition">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">com.opensymphony.workflow.util.AllowOwnerOnlyCondition</arg>
+							</condition>
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+		<!-- en attente de validation par un admin -->
+		<step id="3" name="En attente de validation">
+			<external-permissions>
+				<permission name="publicationIcon:images/publication-wait.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="31" name="Publier sur le site">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="5" owner="${caller}"/>
+					</results>
+					<!--<post-functions>						
+						<function type="beanshell">
+							<arg name="script">								
+								// message à l'auteur pour l'informer que sa publication à été acceptée
+								String message = "";								
+								org.nextime.ion.framework.business.User user = org.nextime.ion.framework.business.User.getInstance(context.getCaller());
+								org.nextime.ion.framework.business.Publication publication = org.nextime.ion.framework.business.Publication.getInstance(variables.get("publicationId"));
+								String toUser = publication.getVersion( Integer.parseInt(variables.get("publicationVersion")) ).getAuthor().getLogin();
+								variables.put("toUser", toUser);
+								message = "Votre publication \""+publication.getMetaData("name")+"\" à été acceptée par "+user.getMetaData("name")+".";
+								variables.put("message",message);																			
+							</arg>
+						</function>
+						<function type="class">
+							<arg name="class.name">org.nextime.ion.osworkflow.util.IonSendEmail</arg>
+							<arg name="fromEmail">postmaster@2st.fr</arg>
+							<arg name="fromName">Backoffice du site 2ST</arg>
+							<arg name="toUsers">${toUser}</arg>
+							<arg name="subject">Votre publication a ete acceptee</arg>
+							<arg name="message">${message}</arg>
+							<arg name="smtpHost">mail.2st.fr</arg>
+						</function>
+					</post-functions>-->
+				</action>
+				<action id="32" name="Refuser et remettre en brouillon;/commentaire.x">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+					<!-- <post-functions>
+						<function type="beanshell">
+							<arg name="script">								
+								// message à l'auteur pour l'informer que sa publication à été refusée
+								String message = "";								
+								org.nextime.ion.framework.business.User user = org.nextime.ion.framework.business.User.getInstance(context.getCaller());
+								org.nextime.ion.framework.business.Publication publication = org.nextime.ion.framework.business.Publication.getInstance(variables.get("publicationId"));
+								String toUser = publication.getVersion( Integer.parseInt(variables.get("publicationVersion")) ).getAuthor().getLogin();
+								variables.put("toUser", toUser);
+								message = "Votre publication \""+publication.getMetaData("name")+"\" à été refusée par "+user.getMetaData("name")+".";
+								message += "\u003CBR\u003E\u003CBR\u003E \u003CU\u003ECommentaire\u003CU\u003E : \u003CBR\u003E"+inputs.get("commentaire");
+								variables.put("message",message);																			
+							</arg>
+						</function>
+						<function type="class">
+							<arg name="class.name">org.nextime.ion.osworkflow.util.IonSendEmail</arg>
+							<arg name="fromEmail">postmaster@2st.fr</arg>
+							<arg name="fromName">Backoffice du site 2ST</arg>
+							<arg name="toUsers">${toUser}</arg>
+							<arg name="subject">Votre publication a ete refusee</arg>
+							<arg name="message">${message}</arg>
+							<arg name="smtpHost">mail.2st.fr</arg>
+						</function>
+					</post-functions> -->
+				</action>
+			</actions>
+		</step>
+		<!-- publiée sur le site -->
+		<step id="5" name="Publié sur le site">
+			<external-permissions>
+				<permission name="canDisplay">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">visitors</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="canBeSearched">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">visitors</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+				<permission name="publicationIcon:images/publication-published.gif">
+					<restrict-to>
+						<conditions type="AND">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUseThisPermissionAsMetadata</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+				</permission>
+			</external-permissions>
+			<actions>
+				<action id="51" name="Remettre en brouillon (dépublier)">
+					<restrict-to>
+						<conditions type="OR">
+							<condition type="class">
+								<arg name="class.name">org.nextime.ion.osworkflow.util.IonUserGroupCondition</arg>
+								<arg name="group">webmasters</arg>
+							</condition>
+						</conditions>
+					</restrict-to>
+					<pre-functions>
+						<function type="class">
+							<arg name="class.name">com.opensymphony.workflow.util.Caller</arg>
+						</function>
+					</pre-functions>
+					<results>
+						<unconditional-result step="1" owner="${caller}"/>
+					</results>
+				</action>
+			</actions>
+		</step>
+	</steps>
+</workflow>

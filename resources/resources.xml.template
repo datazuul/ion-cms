@@ -1,0 +1,6 @@
+<resources-description>
+	<resources id="images" label="Images" directory="images" icon="images.gif"/>
+	<resources id="videos" label="Videos" directory="videos" icon="videos.gif"/>
+	<resources id="documents" label="Documents" directory="documents" icon="documents.gif"/>
+	<resources id="audios" label="Audios" directory="audios" icon="audios.gif"/>
+</resources-description>

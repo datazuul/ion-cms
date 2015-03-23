@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib> 	
+	<tlibversion>1.0 EA2</tlibversion>
+  	<jspversion>1.2</jspversion>
+	<shortname>ion</shortname>
+	<uri>http://ion-cms.sourceforge.net/taglib</uri>
+	<tag>
+		<name>ifUserInRole</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.UserInRoleTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>role</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>selectObjects</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.SelectObjectsTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>param</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.SelectObjectsParamTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>iterateOver</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.IterateOverTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>var</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>indexId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>begin</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.BeginTag</tagclass>
+		<bodycontent>JSP</bodycontent>		
+	</tag>
+	<tag>
+		<name>close</name>
+		<tagclass>org.nextime.ion.frontoffice.taglib.EndTag</tagclass>
+		<bodycontent>JSP</bodycontent>		
+	</tag>
+</taglib>

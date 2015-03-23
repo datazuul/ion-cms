@@ -1,0 +1,47 @@
+# ------------------------------------------------------------
+# ion /// configuration du framework / guillaume.bort@loria.fr
+# ------------------------------------------------------------
+
+
+# chemin relatif vers le repertoire contenant les types (rep. modeles & rep. styles )
+typesPath=../types
+
+# chemin relatif vers le repertoire contenant les définitions de workflows
+workflowsPath=../workflow
+
+# driver SAX à utiliser pour parser les docs XML
+saxDriver=org.apache.xerces.parsers.SAXParser
+
+# spécifie si le parser XML doit vérifier l'intégriter des docs XML au chargement
+xmlValidation=true
+
+# nom de la configuration à utiliser dans le fichier database.xml
+databaseName=ion
+
+# chemin relatif vers le repertoire contenant le caches des rendus XML/XSL
+# si la clé est commentée aucune mise en cache n'est effectuée
+#htmlCache=../cache
+
+# spécifie si le framework doit garder en caches les modeles et les styles des publications
+disableTypeCache=true
+
+# pattern à utiliser par le framework pour formatter les dates (voir java.text.SimpleDateFormat)
+dateFormatPattern=dd/MM/yyyy
+
+# spécifie si le framework doit logger les évenements à l'écran
+disableLog=true
+
+# driver à utiliser pour les rendus XSL-Fo (voir http://xml.apache.org/fop pour les drivers disponibles)
+foRenderType=PDF
+
+# bases d'indéxations à utiliser pour indéxer les publications
+# plusieurs bases sont autorisées à spérarer par des ;
+indexNames=@INDEX_NAMES@
+
+# chemin relatif vers le repertoire contenant les indexs
+indexRoot=../index
+
+# spécifie si le framework doit indéxer automatiquement les publications lorsque elles sont modifiées
+autoIndex=true
+
+

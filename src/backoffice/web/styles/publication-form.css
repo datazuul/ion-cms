@@ -1,0 +1,9 @@
+.text-field {
+	font-family:verdana;
+	color:black;
+	font-size:9px;
+	font-weight:normal;
+	background-color:#d6e4f3;
+	border:1px solid black;
+	width:350px;	
+}		

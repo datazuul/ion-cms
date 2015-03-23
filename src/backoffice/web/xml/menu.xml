@@ -1,0 +1,17 @@
+<menu-bar>
+	<menu tab="0" label="ion Backoffice">
+		<menu-item label="accueil" link="home.x"/>
+		<!--<menu-item label="mon travail" link="myWork.x"/>-->
+		<menu-item label="mon profil" link="myProfile.x"/>
+	</menu>
+	<menu tab="1" label="Gestion de contenu">
+		<menu-item label="liste du contenu" link="contentManagement.x"/>
+		<menu-item label="gestion des ressources" link="resourceManagement.x"/>
+	</menu>
+	<menu tab="2" label="Rechercher du contenu">
+		<menu-item label="" link="search.x"/>
+	</menu>
+	<menu tab="3" label="Gestion des utilisateurs">
+		<menu-item label="" link="listUsers.x"/>
+	</menu>
+</menu-bar>
