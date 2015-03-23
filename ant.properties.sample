@@ -1,0 +1,16 @@
+# ion install settings
+install.dir=d:/myIon
+
+# tomcat settings
+tomcat.dir=d:/jakarta-tomcat-4.1.18
+
+# database configuration
+database.type=mysql
+database.url=jdbc:mysql://localhost/ion
+database.driver=org.gjt.mm.mysql.Driver
+database.user=root
+database.password=root
+
+# indexation settings
+index.names=default
+
