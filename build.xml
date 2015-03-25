@@ -2,7 +2,7 @@
 <project name="ion-cms" default="all" basedir=".">
 	<!-- ion Content Management System / guillaume.bort@loria.fr -->
 
-	<property file=".ant.properties" />
+	<property file="ant.properties" />
 	
 	<!-- DIR -->
 	<property name="resources.dir" value="${basedir}/resources"/>	

@@ -8,7 +8,12 @@ requirement :
 1. copy .ant.properties.sample to .ant.properties
 2. edit .ant.properties to adjust settings
 3. run ant initdb to create tables on your database (only if database.type is set to mysql or hsql)
+   or init manually after creating database:
+   $ sudo mysql -p
+   mysql> create database ion;
+   $ sudo mysql ion -p < resources/initdb-mysql.sql
 4. run ant install
+   There should be ion-admin.xml, ion-backoffice.xml, ion-frontoffice.xml to webapps directory of tomcat.
 5. start tomcat
 
 you should be abble to acceed ion apllications at :
